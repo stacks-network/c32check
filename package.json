@@ -10,7 +10,7 @@
     "prepublish": "npm run build",
     "unit-test": "npm run lint && npm run flow && npm run compile && npm run compile-tests && npm run browserify && node ./tests/unitTests/lib/index.js",
     "build": "npm run flow && npm run compile && npm run browserify",
-    "flow": "flow || true",
+    "flow": "flow",
     "lint": "eslint src && eslint tests",
     "test": "nyc --reporter=text npm run unit-test"
   },
