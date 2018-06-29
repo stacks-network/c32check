@@ -59,3 +59,12 @@ typings/
 
 # next.js build output
 .next
+
+# vim 
+*.swp
+*.swo
+
+# compiled files 
+lib/*
+tests/unitTests/lib/*
+dist/*
