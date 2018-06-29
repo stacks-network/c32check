@@ -4,7 +4,9 @@ import {
   z32encode,
   z32decode,
   z32checkEncode,
-  z32checkDecode
+  z32checkDecode,
+  z32address,
+  z32addressDecode
 } from '../../../lib/index.js'
 
 export function z32encodingTests() {
@@ -398,5 +400,128 @@ export function z32checkEncodingTests() {
   })
 }
 
+export function z32addressTests() {
+  const hexStrings = [
+    'a46ff88886c2ef9762d970b4d2c63678835bd39d',
+    '0000000000000000000000000000000000000000',
+    '0000000000000000000000000000000000000001',
+    '1000000000000000000000000000000000000001',
+    '1000000000000000000000000000000000000000'
+  ]
+
+  const versions = [
+    22,
+    0,
+    31,
+    11,
+    17,
+    2
+  ]
+  
+  const z32addresses = [
+    [
+      'Sn1g96reo5bq9f5n5famjwsgg3hegs6uuia5jq18', 
+      'Syyyyyyyyyyyyyyyyyyyynzg5x8e',
+      'Syyyyyyyyyyyyyyyyyyyf1kertz', 
+      'Seyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyraycwi5', 
+      'Seyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyddte6uu'
+    ],
+    [
+      'Yn1g96reo5bq9f5n5famjwsgg3hegs6uus5uoncq', 
+      'Yyyyyyyyyyyyyyyyyyyyynkkynet',
+      'Yyyyyyyyyyyyyyyyyyyygqumpp3',
+      'Yeyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy8abzcyy', 
+      'Yeyyyyyyyyyyyyyyyyyyyyyyyyyyyyyydqi4ocz'
+    ],
+    [
+      '9n1g96reo5bq9f5n5famjwsgg3hegs6uuzjtgpsa', 
+      '9yyyyyyyyyyyyyyyyyyyyn9qb5wi',
+      '9yyyyyyyyyyyyyyyyyyyft9dp5i',
+      '9eyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyr7m5gw3', 
+      '9eyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy85xfoy'
+    ],
+    [
+      'Mn1g96reo5bq9f5n5famjwsgg3hegs6uuio4zf75',
+      'Myyyyyyyyyyyyyyyyyyyybkguxfa',
+      'Myyyyyyyyyyyyyyyyyyyr4itqdg',
+      'Meyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy8ib6y1d',
+      'Meyyyyyyyyyyyyyyyyyyyyyyyyyyyyyybsytyqc'
+    ],
+    [
+      'Tn1g96reo5bq9f5n5famjwsgg3hegs6uus91uoto', 
+      'Tyyyyyyyyyyyyyyyyyyyy9u5fuy',
+      'Tyyyyyyyyyyyyyyyyyyyrjxzriy',
+      'Teyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyrd7j3da', 
+      'Teyyyyyyyyyyyyyyyyyyyyyyyyyyyyyynayr6ju'
+    ],
+    [
+      'Nn1g96reo5bq9f5n5famjwsgg3hegs6uuwzwmn4j', 
+      'Nyyyyyyyyyyyyyyyyyyyydmw91yk',
+      'Nyyyyyyyyyyyyyyyyyyyrcxncji',
+      'Neyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyf98e55f', 
+      'Neyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy31ydsj'
+    ]
+  ]
+
+  test('z32address', (t) => {
+    t.plan(hexStrings.length * versions.length * 3)
+    for (let i = 0; i < hexStrings.length; i++) {
+      for (let j = 0; j < versions.length; j++) {
+        const h = hexStrings[i]
+        const v = versions[j]
+        const z = z32address(v, h)
+        t.equal(z32addresses[j][i], z, `z32encode version=${v} ${h}: ` +
+          `expect ${z32addresses[j][i]}, got ${z}`)
+
+        const decoded = z32addressDecode(z)
+        const decodedVersion = decoded[0]
+        const decodedHex = decoded[1]
+        const paddedExpectedHex = h.length % 2 !== 0 ? `0${h}` : h
+
+        t.equal(decodedVersion, v, `z32decode ${z}: expect version ${v}, got ${decodedVersion}`)
+        t.equal(decodedHex, paddedExpectedHex, 
+          `z32decode ${z}: expect hex ${paddedExpectedHex}, got ${decodedHex}`)
+      }
+    }
+  })
+
+  test('z32address invalid input', (t) => {
+    const invalids = [
+      () => z32address(-1, 'a46ff88886c2ef9762d970b4d2c63678835bd39d'),
+      () => z32address(32, 'a46ff88886c2ef9762d970b4d2c63678835bd39d'),
+      () => z32address(5, 'a46ff88886c2ef9762d970b4d2c63678835bd39d00'),
+      () => z32address(5, 'a46ff88886c2ef9762d970b4d2c63678835bd3'),
+      () => z32address(5, 'a46ff88886c2ef9762d970b4d2c63678835bd39d0'),
+      () => z32address(5, 'a46ff88886c2ef9762d970b4d2c63678835bd39')
+    ]
+
+    const invalidDecodes = [
+      () => z32addressDecode('Mn1g96reo5bq9f5n5famjwsgg3hegs6uuio4zf7'),
+      () => z32addressDecode('Mn1g96reo5bq9f5n5famjwsgg3hegs6uuio4zf75y'),
+      () => z32addressDecode('mn1g96reo5bq9f5n5famjwsgg3hegs6uuio4zf75')
+    ]
+
+    t.plan(invalids.length + invalidDecodes.length)
+    for (let i = 0; i < invalids.length; i++) {
+      try {
+        invalids[i]()
+        t.ok(false, 'parsed invalid input')
+      } catch (e) {
+        t.ok(true, `invalid input case ${i}`)
+      }
+    }
+
+    for (let i = 0; i < invalidDecodes.length; i++) {
+      try {
+        invalidDecodes[i]()
+        t.ok(false, 'decoded invalid address')
+      } catch (e) {
+        t.ok(true, `invalid address decode case ${i}`)
+      }
+    }
+  })
+}
+
 z32encodingTests()
 z32checkEncodingTests()
+z32addressTests()
