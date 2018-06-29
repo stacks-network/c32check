@@ -10,4 +10,9 @@ import {
   z32checkDecode
 } from './checksum'
 
-export { z32encode, z32decode, z32checkEncode, z32checkDecode }
+import {
+  z32address,
+  z32addressDecode
+} from './address'
+
+export { z32encode, z32decode, z32checkEncode, z32checkDecode, z32address, z32addressDecode }
