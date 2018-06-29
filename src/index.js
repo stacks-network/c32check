@@ -1,20 +1,21 @@
 /* @flow */
 
 import {
-  z32encode,
-  z32decode
+  c32encode,
+  c32decode,
+  c32normalize
 } from './encoding'
 
 import {
-  z32checkEncode,
-  z32checkDecode
+  c32checkEncode,
+  c32checkDecode
 } from './checksum'
 
 import {
-  z32address,
-  z32addressDecode,
+  c32address,
+  c32addressDecode,
   versions
 } from './address'
 
-export { z32encode, z32decode, z32checkEncode, z32checkDecode, 
-  z32address, z32addressDecode, versions }
+export { c32encode, c32decode, c32checkEncode, c32checkDecode, 
+  c32address, c32addressDecode, c32normalize, versions }

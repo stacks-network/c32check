@@ -45,16 +45,16 @@ ripemd160 hash.
   c32address: [Function: c32address],
   c32addressDecode: [Function: c32addressDecode],
   versions: 
-   { mainnet: { p2pkh: 22, p2sh: 11 },
-     testnet: { p2pkh: 17, p2sh: 2 } } }
+   { mainnet: { p2pkh: 22, p2sh: 20 },
+     testnet: { p2pkh: 26, p2sh: 21 } } }
 ```
 
 ## c32encode, c32decode
 
 ```
 > c32check.c32encode(Buffer.from('hello world').toString('hex'))
-'decisga53yq7zzr5dr'
-> c32check.c32decode('decisga53yq7zzr5dr')
+'38CNP6RVS0EXQQ4V34'
+> c32check.c32decode('38CNP6RVS0EXQQ4V34')
 '68656c6c6f20776f726c64'
 > Buffer.from('68656c6c6f20776f726c64', 'hex').toString()
 'hello world'
@@ -66,8 +66,8 @@ ripemd160 hash.
 > version = 12
 12
 > c32check.c32checkEncode(version, Buffer.from('hello world').toString('hex'))
-'cpb1sa5dxrb5s6huccoawk3ce'
-> c32check.c32checkDecode('cpb1sa5dxrb5s6huccoawk3ce')
+'CD1JPRV3F41VPYWKCCGRMASC8'
+> c32check.c32checkDecode('CD1JPRV3F41VPYWKCCGRMASC8')
 [ 12, '68656c6c6f20776f726c64' ] 
 > Buffer.from('68656c6c6f20776f726c64', 'hex').toString()
 'hello world'
@@ -83,7 +83,7 @@ ripemd160 hash.
 > version = c32check.versions.mainnet.p2pkh
 22
 > c32check.c32address(version, hash160)
-'Sn1g96reo5bq9f5n5famjwsgg3hegs6uuia5jq18'
-> c32check.c32addressDecode('Sn1g96reo5bq9f5n5famjwsgg3hegs6uuia5jq18')
+'SP2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKNRV9EJ7'
+> c32check.c32addressDecode('SP2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKNRV9EJ7')
 [ 22, 'a46ff88886c2ef9762d970b4d2c63678835bd39d' ]
 ```

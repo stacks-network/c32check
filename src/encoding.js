@@ -2,16 +2,16 @@
 
 const bigi = require('bigi')
 
-export const z32 = 'ybndrfg8ejkmcpqxot1uwisza345h769'
+export const c32 = '0123456789ABCDEFGHJKMNPQRSTVWXYZ'
 
 /**
- * Encode a hex string as a z32 string.  Note that the hex string is assumed
- * to be big-endian (and the resulting z32 string will be as well).
+ * Encode a hex string as a c32 string.  Note that the hex string is assumed
+ * to be big-endian (and the resulting c32 string will be as well).
  * @param {string} inputHex - the input to encode
- * @param {number} minLength - the minimum length of the z32 string
- * @returns {string} the z32check-encoded representation of the data, as a string
+ * @param {number} minLength - the minimum length of the c32 string
+ * @returns {string} the c32check-encoded representation of the data, as a string
  */
-export function z32encode(inputHex : string, minLength?: number) : string {
+export function c32encode(inputHex : string, minLength?: number) : string {
   // must be hex
   if (!inputHex.match(/^[0-9a-fA-F]*$/)) {
     throw new Error('Not a hex-encoded string')
@@ -25,27 +25,27 @@ export function z32encode(inputHex : string, minLength?: number) : string {
 
   const res = []
   const zero = bigi.fromByteArrayUnsigned('0')
-  const base = bigi.fromByteArrayUnsigned(`${z32.length}`)
+  const base = bigi.fromByteArrayUnsigned(`${c32.length}`)
   const zeroPrefix = Buffer.from(inputHex, 'hex').toString().match(/^\u0000*/)
   const numLeadingZeroBytes = zeroPrefix ? zeroPrefix[0].length : 0
 
   let val = bigi.fromHex(inputHex)
   while (val.compareTo(zero) > 0) {
     const divRem = val.divideAndRemainder(base)
-    const rem = divRem[1].toByteArray()[0]    // between 0 and z32.length - 1
+    const rem = divRem[1].toByteArray()[0]    // between 0 and c32.length - 1
 
-    res.unshift(z32[rem])
+    res.unshift(c32[rem])
     val = divRem[0]
   }
 
   for (let i = 0; i < numLeadingZeroBytes; i++) {
-    res.unshift(z32[0])
+    res.unshift(c32[0])
   }
 
   if (minLength) {
     const count = minLength - res.length
     for (let i = 0; i < count; i++) {
-      res.unshift(z32[0])
+      res.unshift(c32[0])
     }
   }
 
@@ -53,28 +53,44 @@ export function z32encode(inputHex : string, minLength?: number) : string {
 }
 
 /*
- * Decode a z32 string back into a hex string.  Note that the z32 input
+ * Normalize a c32 string
+ * @param {string} c32input - the c32-encoded input string
+ * @returns {string} the canonical representation of the c32 input string
+ */
+export function c32normalize(c32input: string) : string {
+  // must be upper-case
+  // replace all O's with 0's
+  // replace all I's and L's with 1's
+  return c32input.toUpperCase()
+    .replace(/O/g, '0')
+    .replace(/L|I/g, '1')
+}
+
+/*
+ * Decode a c32 string back into a hex string.  Note that the c32 input
  * string is assumed to be big-endian (and the resulting hex string will
  * be as well).
- * @param {string} z32input - the z32-encoded input to decode
+ * @param {string} c32input - the c32-encoded input to decode
  * @param {number} minLength - the minimum length of the output hex string (in bytes)
  * @returns {string} the hex-encoded representation of the data, as a string
  */
-export function z32decode(z32input: string, minLength?: number) : string {
-  // must be z32 
-  if (!z32input.match(`^[${z32}]*$`)) {
-    throw new Error('Not a z32-encoded string')
+export function c32decode(c32input: string, minLength?: number) : string {
+  c32input = c32normalize(c32input)
+
+  // must result in a c32 string
+  if (!c32input.match(`^[${c32}]*$`)) {
+    throw new Error('Not a c32-encoded string')
   }
 
-  const base = bigi.fromByteArrayUnsigned(`${z32.length}`)
+  const base = bigi.fromByteArrayUnsigned(`${c32.length}`)
 
-  const zeroPrefix = z32input.match(/^y*/)
+  const zeroPrefix = c32input.match(`^${c32[0]}*`)
   const numLeadingZeroBytes = zeroPrefix ? zeroPrefix[0].length : 0
 
   let res = bigi.fromByteArrayUnsigned('0')
-  for (let i = 0; i < z32input.length; i++) {
+  for (let i = 0; i < c32input.length; i++) {
     res = res.multiply(base)
-    res = res.add(bigi.fromByteArrayUnsigned(`${z32.indexOf(z32input[i])}`))
+    res = res.add(bigi.fromByteArrayUnsigned(`${c32.indexOf(c32input[i])}`))
   }
 
   let hexStr = res.toHex()
@@ -89,6 +105,6 @@ export function z32decode(z32input: string, minLength?: number) : string {
       hexStr = `00${hexStr}`
     }
   }
-
+  
   return hexStr
 }
