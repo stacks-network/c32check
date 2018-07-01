@@ -76,7 +76,6 @@
     "tape-promise": "^2.0.1"
   },
   "dependencies": {
-    "bigi": "^1.4.2",
     "ripemd160": "^2.0.1"
   },
   "engines": {
