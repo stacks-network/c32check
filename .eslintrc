@@ -1,15 +1,13 @@
 {
-  "extends": "airbnb",
   "parser": "babel-eslint",
   "plugins": ["flowtype"],
-  "ecmaFeatures": {
-    "jsx": false,
-    "modules": true
-  },
   "env": {
-    "browser": true,
+    "browser": false,
     "es6": true,
     "node": true,
+  },
+  "ecmaFeatures": {
+    "modules": true
   },
   "rules": {
     "comma-dangle": ["error", "never"],
@@ -31,7 +29,7 @@
     "new-cap": 0,
     "camelcase": 2,
     "semi": [2, "never"],
-    "valid-jsdoc": ["error"],
-    "flowtype/define-flow-type": 1
+    "flowtype/define-flow-type": 1,
+    "valid-jsdoc": ["error"]
   }
 }

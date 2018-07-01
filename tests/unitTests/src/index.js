@@ -1,5 +1,5 @@
 import test from 'tape-promise/tape'
-
+import process from 'process'
 import {
   c32encode,
   c32decode,
@@ -161,6 +161,36 @@ export function c32encodingTests() {
       t.ok(true, 'invalid c32')
     }
   })
+}
+
+export function c32encodingRandomBytes() {
+  const testData = require('../data/random.json')
+
+  test('c32encode', (t) => {
+    t.plan(testData.length)
+    testData.map((testData) => {
+      const actualC32 = c32encode(testData.hex, testData.c32.length)
+      const expectedC32 = testData.c32
+      if (actualC32.length === expectedC32.length + 1) {
+        t.equal(actualC32, `0${expectedC32}`, 'Should match test data from external library.')
+      } else {
+        t.equal(actualC32, expectedC32, 'Should match test data from external library.')
+      }
+    })
+  })
+
+  test('c32decode', (t) => {
+    t.plan(testData.length)
+    testData.map((testData) => {
+      const actualHex = c32decode(testData.c32, testData.hex.length / 2)
+      const expectedHex = testData.hex
+      t.equal(actualHex, expectedHex, 'Should match test hex data from external library.')
+      if (actualHex !== expectedHex) {
+        throw new Error('FAILING FAST HERE')
+      }
+    })
+  })
+
 }
 
 export function c32checkEncodingTests() {
@@ -547,6 +577,10 @@ export function c32addressTests() {
   })
 }
 
-c32encodingTests()
-c32checkEncodingTests()
-c32addressTests()
+if (process.env.BIG_DATA_TESTS) {
+  c32encodingRandomBytes()
+} else {
+  c32encodingTests()
+  c32checkEncodingTests()
+  c32addressTests()
+}
