@@ -1,5 +1,6 @@
 /* @flow */
 import { c32checkEncode, c32checkDecode } from './checksum'
+import base58check from 'base58check'
 
 export const versions = {
   mainnet: {
@@ -11,6 +12,20 @@ export const versions = {
     p2sh: 21      // 'N'
   }
 }
+
+// address conversion : bitcoin to stacks
+const ADDR_BITCOIN_TO_STACKS = {}
+ADDR_BITCOIN_TO_STACKS[0] = versions.mainnet.p2pkh
+ADDR_BITCOIN_TO_STACKS[5] = versions.mainnet.p2sh
+ADDR_BITCOIN_TO_STACKS[111] = versions.testnet.p2pkh
+ADDR_BITCOIN_TO_STACKS[196] = versions.testnet.p2sh
+
+// address conversion : stacks to bitcoin 
+const ADDR_STACKS_TO_BITCOIN = {}
+ADDR_STACKS_TO_BITCOIN[versions.mainnet.p2pkh] = 0
+ADDR_STACKS_TO_BITCOIN[versions.mainnet.p2sh] = 5
+ADDR_STACKS_TO_BITCOIN[versions.testnet.p2pkh] = 111
+ADDR_STACKS_TO_BITCOIN[versions.testnet.p2sh] = 196
 
 /**
  * Make a c32check address with the given version and hash160
@@ -39,5 +54,64 @@ export function c32addressDecode(c32addr: string) : [number, string] {
     throw new Error('Invalid c32 address: invalid length')
   }
   return c32checkDecode(c32addr.slice(1))
+}
+
+
+/*
+ * Convert a base58check address to a c32check address.
+ * Try to convert the version number if one is not given.
+ * @param {string} b58check - the base58check encoded address
+ * @param {number} version - the version number, if not inferred from the address
+ * @returns {string} the c32 address with the given version number (or the 
+ *   semantically-equivalent c32 version number, if not given)
+ */
+export function b58ToC32(b58check: string, version: number = -1) : string {
+  const addrInfo = base58check.decode(b58check)
+  const hash160String = addrInfo.data.toString('hex')
+  const addrVersion = parseInt(addrInfo.prefix.toString('hex'), 16)
+  let stacksVersion
+
+  if (version < 0) {
+    stacksVersion = addrVersion
+    if (ADDR_BITCOIN_TO_STACKS[addrVersion] !== undefined) {
+      stacksVersion = ADDR_BITCOIN_TO_STACKS[addrVersion]
+    }
+  }
+  else {
+    stacksVersion = version
+  }
+
+  return c32address(stacksVersion, hash160String)
+}
+
+/*
+ * Convert a c32check address to a base58check address.
+ * @param {string} c32string - the c32check address
+ * @param {number} version - the version number, if not inferred from the address
+ * @returns {string} the base58 address with the given version number (or the
+ *    semantically-equivalent bitcoin version number, if not given)
+ */
+export function c32ToB58(c32string: string, version: number = -1) : string {
+  const addrInfo = c32addressDecode(c32string)
+  const stacksVersion = addrInfo[0]
+  const hash160String = addrInfo[1]
+  let bitcoinVersion
+
+  if (version < 0) {
+    bitcoinVersion = stacksVersion
+    if (ADDR_STACKS_TO_BITCOIN[stacksVersion] !== undefined) {
+      bitcoinVersion = ADDR_STACKS_TO_BITCOIN[stacksVersion]
+    }
+  }
+  else {
+    bitcoinVersion = version
+  }
+
+  let prefix = bitcoinVersion.toString(16)
+  if (prefix.length === 1) {
+    prefix = `0${prefix}`
+  }
+ 
+  return base58check.encode(hash160String, prefix)
 }
 
