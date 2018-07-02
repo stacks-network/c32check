@@ -1,10 +1,10 @@
 {
-  "name": "z32check",
-  "version": "0.0.2",
-  "description": "z-base-32 checksum encoding",
+  "name": "c32check",
+  "version": "0.0.3",
+  "description": "Crockford base-32 checksum encoding",
   "main": "lib/index",
   "scripts": {
-    "browserify": "mkdir -p ./dist && ./node_modules/.bin/browserify lib/index.js --standalone z32check -o ./dist/z32check.js",
+    "browserify": "mkdir -p ./dist && ./node_modules/.bin/browserify lib/index.js --standalone c32check -o ./dist/c32check.js",
     "compile": "rm -rf lib; babel src -d lib",
     "compile-tests": "rm -rf tests/unitTests/lib; babel tests/unitTests/src -d tests/unitTests/lib;",
     "prepublish": "npm run build",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jcnelson/z32check.git"
+    "url": "git+https://github.com/jcnelson/c32check.git"
   },
   "author": {
     "name": "Jude Nelson",
@@ -26,7 +26,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jcnelson/z32check/issues"
+    "url": "https://github.com/jcnelson/c32check/issues"
   },
   "keywords": [
     "blockchain",
