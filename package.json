@@ -1,6 +1,6 @@
 {
   "name": "c32check",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Crockford base-32 checksum encoding",
   "main": "lib/index",
   "scripts": {
@@ -76,6 +76,7 @@
     "tape-promise": "^2.0.1"
   },
   "dependencies": {
+    "base58check": "^2.0.0",
     "ripemd160": "^2.0.1"
   },
   "engines": {
