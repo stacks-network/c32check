@@ -1,6 +1,6 @@
 {
   "name": "c32check",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Crockford base-32 checksum encoding",
   "main": "lib/index",
   "scripts": {
