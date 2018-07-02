@@ -46,7 +46,9 @@ ripemd160 hash.
   c32addressDecode: [Function: c32addressDecode],
   versions: 
    { mainnet: { p2pkh: 22, p2sh: 20 },
-     testnet: { p2pkh: 26, p2sh: 21 } } }
+     testnet: { p2pkh: 26, p2sh: 21 } },
+  c32ToB58: [Function: c32ToB58],
+  b58ToC32: [Function: b58ToC32] }
 ```
 
 ## c32encode, c32decode
@@ -86,4 +88,26 @@ ripemd160 hash.
 'SP2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKNRV9EJ7'
 > c32check.c32addressDecode('SP2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKNRV9EJ7')
 [ 22, 'a46ff88886c2ef9762d970b4d2c63678835bd39d' ]
+```
+
+## c32ToB58, b58ToC32
+
+**NOTE**: Common address versions are converted between c32check
+and base58check seamlessly, in order to accomodate Stacks addresses.
+
+```
+> b58addr = '16EMaNw3pkn3v6f2BgnSSs53zAKH4Q8YJg'
+'16EMaNw3pkn3v6f2BgnSSs53zAKH4Q8YJg'
+> c32check.b58ToC32(b58addr)
+'SPWNYDJ3STG7XH7ERWXMV6MQ7Q6EATWVY5Q1QMP8'
+> c32check.c32ToB58('SPWNYDJ3STG7XH7ERWXMV6MQ7Q6EATWVY5Q1QMP8')
+'16EMaNw3pkn3v6f2BgnSSs53zAKH4Q8YJg'
+```
+```
+> b58addr = '3D2oetdNuZUqQHPJmcMDDHYoqkyNVsFk9r'
+'3D2oetdNuZUqQHPJmcMDDHYoqkyNVsFk9r'
+> c32check.b58ToC32(b58addr)
+'SM1Y6EXF21RZ9739DFTEQKB1H044BMM0XVCM4A4NY'
+> c32check.c32ToB58('SM1Y6EXF21RZ9739DFTEQKB1H044BMM0XVCM4A4NY')
+3D2oetdNuZUqQHPJmcMDDHYoqkyNVsFk9r'
 ```
