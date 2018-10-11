@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jcnelson/c32check.git"
+    "url": "git+https://github.com/blockstack/c32check.git"
   },
   "author": {
     "name": "Jude Nelson",
@@ -26,7 +26,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jcnelson/c32check/issues"
+    "url": "https://github.com/blockstack/c32check/issues"
   },
   "keywords": [
     "blockchain",
