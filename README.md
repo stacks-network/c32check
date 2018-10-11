@@ -75,7 +75,7 @@ ripemd160 hash.
 'hello world'
 ```
 
-# c32address, c32addressDecode
+## c32address, c32addressDecode
 
 **NOTE**: these methods only work on ripemd160 hashes
 
