@@ -1,7 +1,5 @@
-/* @flow */
-
 import { c32encode, c32decode, c32normalize, c32 } from './encoding'
-import crypto from 'crypto'
+import * as crypto from 'crypto'
 
 /**
  * Get the c32check checksum of a hex-encoded string

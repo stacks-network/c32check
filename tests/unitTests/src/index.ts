@@ -1,5 +1,5 @@
-import test from 'tape-promise/tape'
-import process from 'process'
+import test = require('tape-promise/tape')
+import * as process from 'process'
 import {
   c32encode,
   c32decode,
@@ -9,7 +9,7 @@ import {
   c32addressDecode,
   c32ToB58,
   b58ToC32
-} from '../../../lib/index.js'
+} from '../../../src/index'
 
 export function c32encodingTests() {
   const hexStrings = [
@@ -166,7 +166,7 @@ export function c32encodingTests() {
 }
 
 export function c32encodingRandomBytes() {
-  const testData = require('../data/random.json')
+  const testData: { hex: string; c32: string; }[] = require('../data/random.json')
 
   test('c32encode', (t) => {
     t.plan(testData.length)
