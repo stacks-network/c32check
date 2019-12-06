@@ -1,6 +1,6 @@
 {
   "name": "c32check",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Crockford base-32 checksum encoding",
   "main": "lib/index",
   "unpkg": "dist/c32check.js",
