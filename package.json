@@ -5,12 +5,14 @@
   "main": "lib/index",
   "unpkg": "dist/c32check.js",
   "jsdelivr": "dist/c32check.js",
+  "prettier": "@blockstack/prettier-config",
   "scripts": {
     "webpack": "rimraf lib dist && webpack --mode=production",
     "compile": "rimraf lib && tsc",
     "prepublish": "npm run build",
     "build": "npm run lint && npm run test && npm run webpack && npm run compile",
     "lint": "eslint --ext=.ts -f=codeframe ./src ./tests",
+    "prettier": "prettier --write ./src/**/*.ts",
     "test": "nyc node ./tests/unitTests/src/index.ts",
     "data-set-test": "npm run lint && cross-env BIG_DATA_TESTS=1 nyc node ./tests/unitTests/src/index.ts",
     "codecovUpload": "codecov"
@@ -73,6 +75,7 @@
   "devDependencies": {
     "@babel/core": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
+    "@blockstack/prettier-config": "0.0.4",
     "@types/node": "^12.12.14",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
@@ -81,6 +84,7 @@
     "cross-env": "^6.0.3",
     "eslint": "^6.7.2",
     "nyc": "^14.1.1",
+    "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.16",
     "tape": "^4.11.0",
