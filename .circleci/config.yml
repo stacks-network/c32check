@@ -29,11 +29,11 @@ jobs:
 
       # run tests!
       - run: npm run lint
-      
-      - run: npm run test
 
       - run: npm run data-set-test
       
+      - run: npm run test
+
       - run: npm run webpack
       
       - run: npm run compile

@@ -14,7 +14,7 @@
     "lint": "eslint --ext=.ts -f=codeframe ./src ./tests",
     "prettier": "prettier --write ./src/**/*.ts",
     "test": "nyc node ./tests/unitTests/src/index.ts",
-    "data-set-test": "npm run lint && cross-env BIG_DATA_TESTS=1 nyc node ./tests/unitTests/src/index.ts",
+    "data-set-test": "cross-env BIG_DATA_TESTS=1 nyc node ./tests/unitTests/src/index.ts",
     "codecovUpload": "codecov"
   },
   "repository": {
