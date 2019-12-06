@@ -31,6 +31,8 @@ jobs:
       - run: npm run lint
       
       - run: npm run test
+
+      - run: npm run data-set-test
       
       - run: npm run webpack
       
