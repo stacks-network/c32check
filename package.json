@@ -9,7 +9,7 @@
   "scripts": {
     "webpack": "rimraf lib dist && webpack --mode=production",
     "compile": "rimraf lib && tsc",
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "npm run lint && npm run test && npm run webpack && npm run compile",
     "lint": "eslint --ext=.ts -f=codeframe ./src ./tests",
     "prettier": "prettier --write ./src/**/*.ts",
