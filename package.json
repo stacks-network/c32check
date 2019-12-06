@@ -1,19 +1,21 @@
 {
   "name": "c32check",
-  "version": "0.0.6",
+  "version": "1.0.1",
   "description": "Crockford base-32 checksum encoding",
   "main": "lib/index",
+  "unpkg": "dist/c32check.js",
+  "jsdelivr": "dist/c32check.js",
+  "prettier": "@blockstack/prettier-config",
   "scripts": {
-    "browserify": "mkdir -p ./dist && ./node_modules/.bin/browserify lib/index.js --standalone c32check -o ./dist/c32check.js",
-    "compile": "rm -rf lib; babel src -d lib",
-    "compile-tests": "rm -rf tests/unitTests/lib; babel tests/unitTests/src -d tests/unitTests/lib;",
-    "prepublish": "npm run build",
-    "unit-test": "npm run lint && npm run flow && npm run compile && npm run compile-tests && npm run browserify && node ./tests/unitTests/lib/index.js",
-    "data-set-test": "npm run lint && npm run flow && npm run compile && npm run compile-tests && npm run browserify && BIG_DATA_TESTS=1 node ./tests/unitTests/lib/index.js",
-    "build": "npm run flow && npm run compile && npm run browserify",
-    "flow": "flow",
-    "lint": "eslint src && eslint tests",
-    "test": "nyc --reporter=text npm run unit-test"
+    "webpack": "rimraf lib dist && webpack --mode=production",
+    "compile": "rimraf lib && tsc",
+    "prepublishOnly": "npm run build",
+    "build": "npm run lint && npm run test && npm run webpack && npm run compile",
+    "lint": "eslint --ext=.ts -f=codeframe ./src ./tests",
+    "prettier": "prettier --write ./src/**/*.ts",
+    "test": "nyc node ./tests/unitTests/src/index.ts",
+    "data-set-test": "cross-env BIG_DATA_TESTS=1 nyc node ./tests/unitTests/src/index.ts",
+    "codecovUpload": "codecov"
   },
   "repository": {
     "type": "git",
@@ -58,34 +60,67 @@
   "homepage": "https://blockstack.org",
   "contributors": [
     {
-      "name": "Jude Nelson"
+      "name": "Jude Nelson",
+      "email": "jude@blockstack.com"
+    },
+    {
+      "name": "Aaron Blankstein",
+      "email": "aaron@blockstack.com"
+    },
+    {
+      "name": "Matthew Little",
+      "email": "matt@blockstack.com"
     }
   ],
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-eslint": "^6.0.4",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-flow": "^6.23.0",
-    "browserify": "^13.1.1",
-    "eslint": "^2.10.2",
-    "eslint-plugin-flowtype": "^2.49.3",
-    "eslint-plugin-import": "^1.8.1",
-    "flow-bin": "^0.49.1",
-    "nyc": "^11.4.1",
-    "tape": "^4.6.3",
-    "tape-promise": "^2.0.1"
+    "@babel/core": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "@blockstack/prettier-config": "0.0.4",
+    "@types/node": "^12.12.14",
+    "@typescript-eslint/eslint-plugin": "^2.10.0",
+    "@typescript-eslint/parser": "^2.10.0",
+    "babel-loader": "^8.0.6",
+    "codecov": "^3.6.1",
+    "cross-env": "^6.0.3",
+    "eslint": "^6.7.2",
+    "nyc": "^14.1.1",
+    "prettier": "^1.19.1",
+    "rimraf": "^3.0.0",
+    "source-map-support": "^0.5.16",
+    "tape": "^4.11.0",
+    "tape-promise": "^4.0.0",
+    "ts-loader": "^6.2.1",
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.3",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   },
   "dependencies": {
     "base58check": "^2.0.0",
     "ripemd160": "^2.0.1"
   },
   "engines": {
-    "node": ">=6",
-    "npm": ">=5"
+    "node": ">=8"
   },
   "nyc": {
+    "cache": false,
+    "all": true,
+    "extension": [
+      ".ts"
+    ],
     "include": [
-      "lib/**"
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "**/*.d.ts"
+    ],
+    "require": [
+      "ts-node/register/transpile-only",
+      "source-map-support/register"
+    ],
+    "reporter": [
+      "text",
+      "lcov"
     ]
   }
 }

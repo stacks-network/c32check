@@ -1,5 +1,3 @@
-/* @flow */
-
 import {
   c32encode,
   c32decode,

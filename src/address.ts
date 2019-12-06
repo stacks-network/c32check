@@ -1,6 +1,5 @@
-/* @flow */
 import { c32checkEncode, c32checkDecode } from './checksum'
-import base58check from 'base58check'
+import * as base58check from 'base58check'
 
 export const versions = {
   mainnet: {
@@ -14,14 +13,14 @@ export const versions = {
 }
 
 // address conversion : bitcoin to stacks
-const ADDR_BITCOIN_TO_STACKS = {}
+const ADDR_BITCOIN_TO_STACKS: Record<number, number> = {}
 ADDR_BITCOIN_TO_STACKS[0] = versions.mainnet.p2pkh
 ADDR_BITCOIN_TO_STACKS[5] = versions.mainnet.p2sh
 ADDR_BITCOIN_TO_STACKS[111] = versions.testnet.p2pkh
 ADDR_BITCOIN_TO_STACKS[196] = versions.testnet.p2sh
 
 // address conversion : stacks to bitcoin 
-const ADDR_STACKS_TO_BITCOIN = {}
+const ADDR_STACKS_TO_BITCOIN: Record<number, number> = {}
 ADDR_STACKS_TO_BITCOIN[versions.mainnet.p2pkh] = 0
 ADDR_STACKS_TO_BITCOIN[versions.mainnet.p2sh] = 5
 ADDR_STACKS_TO_BITCOIN[versions.testnet.p2pkh] = 111
