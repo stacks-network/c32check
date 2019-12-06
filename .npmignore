@@ -1,2 +1,4 @@
 src/
 unused
+.nyc_output
+coverage

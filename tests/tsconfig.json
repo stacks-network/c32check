@@ -1,8 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "noEmit": true,
-    "module": "commonjs"
+    "noEmit": true
   },
   "include": [
     "./unitTests/src/**/*",
