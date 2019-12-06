@@ -58,7 +58,16 @@
   "homepage": "https://blockstack.org",
   "contributors": [
     {
-      "name": "Jude Nelson"
+      "name": "Jude Nelson",
+      "email": "jude@blockstack.com"
+    },
+    {
+      "name": "Aaron Blankstein",
+      "email": "aaron@blockstack.com"
+    },
+    {
+      "name": "Matthew Little",
+      "email": "matt@blockstack.com"
     }
   ],
   "devDependencies": {
