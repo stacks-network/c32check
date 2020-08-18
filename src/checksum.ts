@@ -1,5 +1,6 @@
+import { Buffer } from 'buffer/'
 import { c32encode, c32decode, c32normalize, c32 } from './encoding'
-import * as crypto from 'crypto'
+import { hashSha256 } from 'cross-sha256'
 
 /**
  * Get the c32check checksum of a hex-encoded string
@@ -7,8 +8,7 @@ import * as crypto from 'crypto'
  * @returns {string} the c32 checksum, as a bin-encoded string
  */
 function c32checksum(dataHex: string) : string {
-  const tmpHash = crypto.createHash('sha256').update(Buffer.from(dataHex, 'hex')).digest()
-  const dataHash = crypto.createHash('sha256').update(tmpHash).digest()
+  const dataHash = hashSha256(hashSha256(Buffer.from(dataHex, 'hex')))
   const checksum = dataHash.slice(0, 4).toString('hex')
   return checksum
 }

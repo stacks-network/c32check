@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer/'
 export const c32 = '0123456789ABCDEFGHJKMNPQRSTVWXYZ'
 const hex = '0123456789abcdef'
 
