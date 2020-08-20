@@ -1,5 +1,5 @@
 import { c32checkEncode, c32checkDecode } from './checksum'
-import * as base58check from 'base58check'
+import * as base58check from './base58check'
 
 export const versions = {
   mainnet: {
