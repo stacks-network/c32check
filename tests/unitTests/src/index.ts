@@ -555,7 +555,8 @@ export function c32addressTests() {
       () => c32addressDecode('ST2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKQYAC0RQ0'),
       () => c32addressDecode('ST2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKQYAC0RR'),
       () => c32addressDecode('ST2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKQYAC0R'),
-      () => c32addressDecode('ST2J')
+      () => c32addressDecode('ST2J'),
+      () => c32addressDecode('bP2CT665Q0JB7P39TZ7BST0QYCAQSMJWBZK8QT35J')
     ]
 
     t.plan(invalids.length + invalidDecodes.length)

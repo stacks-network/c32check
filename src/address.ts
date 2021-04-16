@@ -52,6 +52,9 @@ export function c32addressDecode(c32addr: string) : [number, string] {
   if (c32addr.length <= 5) {
     throw new Error('Invalid c32 address: invalid length')
   }
+  if (c32addr[0] != 'S') {
+    throw new Error('Invalid c32 address: must start with "S"')
+  }
   return c32checkDecode(c32addr.slice(1))
 }
 
