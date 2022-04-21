@@ -112,7 +112,7 @@ node
 ## c32ToB58, b58ToC32
 
 **NOTE**: Common address versions are converted between c32check
-and base58check seamlessly, in order to accomodate Stacks addresses.
+and base58check seamlessly, in order to accommodate Stacks addresses.
 
 ```
 > b58addr = '16EMaNw3pkn3v6f2BgnSSs53zAKH4Q8YJg'
