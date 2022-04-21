@@ -34,6 +34,25 @@ Specific to Blockstack, the Stacks blockchain uses c32-encoded public key
 hashes as addresses.  Specifically, a **c32check address** is a c32check-encoded
 ripemd160 hash.
 
+## Installation
+
+To build the c32check library, run:
+
+```
+npm i
+npm run build
+```
+
+## Usage
+
+To enable access to the functions listed under examples, run:
+
+```
+cd dist
+node
+.load c32check.js
+```
+
 # Examples
 
 ```
