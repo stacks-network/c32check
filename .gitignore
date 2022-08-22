@@ -60,11 +60,14 @@ typings/
 # next.js build output
 .next
 
-# vim 
+# vim
 *.swp
 *.swo
 
-# compiled files 
+# compiled files
 lib/*
 tests/unitTests/lib/*
 dist/*
+
+# os files
+.DS_Store
