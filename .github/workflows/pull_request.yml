@@ -1,0 +1,32 @@
+name: pull request
+
+on: [pull_request, workflow_dispatch]
+
+jobs:
+  pre_run:
+    name: Cancel previous runs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@ad6cb1b847ffb509a69b745b6ee2f1d14dfe14b8
+        with:
+          access_token: ${{ github.token }}
+
+  code_checks:
+    name: Code checks
+    runs-on: ubuntu-latest
+    needs: pre_run
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: npm
+      - run: npm ci
+
+      - run: npm run data-set-test
+
+      - name: Code Checks
+        run: npm run prepublishOnly
+
+      - run: npm run codecovUpload
