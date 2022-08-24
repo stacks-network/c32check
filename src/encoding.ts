@@ -1,4 +1,5 @@
-import { Buffer } from 'buffer/';
+import { hexToBytes } from '@noble/hashes/utils';
+
 export const c32 = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 const hex = '0123456789abcdef';
 
@@ -52,9 +53,7 @@ export function c32encode(inputHex: string, minLength?: number): string {
 
   res = res.slice(C32leadingZeros);
 
-  const zeroPrefix = Buffer.from(inputHex, 'hex')
-    .toString()
-    .match(/^\u0000*/);
+  const zeroPrefix = new TextDecoder().decode(hexToBytes(inputHex)).match(/^\u0000*/);
   const numLeadingZeroBytesInHex = zeroPrefix ? zeroPrefix[0].length : 0;
 
   for (let i = 0; i < numLeadingZeroBytesInHex; i++) {

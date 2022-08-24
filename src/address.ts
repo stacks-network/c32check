@@ -1,5 +1,6 @@
 import { c32checkEncode, c32checkDecode } from './checksum';
 import * as base58check from './base58check';
+import { bytesToHex } from '@noble/hashes/utils';
 
 export const versions = {
   mainnet: {
@@ -68,8 +69,8 @@ export function c32addressDecode(c32addr: string): [number, string] {
  */
 export function b58ToC32(b58check: string, version: number = -1): string {
   const addrInfo = base58check.decode(b58check);
-  const hash160String = addrInfo.data.toString('hex');
-  const addrVersion = parseInt(addrInfo.prefix.toString('hex'), 16);
+  const hash160String = bytesToHex(addrInfo.data);
+  const addrVersion = parseInt(bytesToHex(addrInfo.prefix), 16);
   let stacksVersion;
 
   if (version < 0) {

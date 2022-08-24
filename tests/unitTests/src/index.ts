@@ -10,6 +10,7 @@ import {
   c32ToB58,
   b58ToC32,
 } from '../../../src/index';
+import * as c32check from '../../../src/index';
 
 export function c32encodingTests() {
   const hexStrings = [
@@ -790,6 +791,48 @@ export function c32ToB58Test() {
         );
       }
     }
+  });
+
+  test('README examples with legacy Buffer', t => {
+    let version, b58addr;
+    t.plan(15);
+
+    // ## c32encode, c32decode
+    t.equal(c32check.c32encode(Buffer.from('hello world').toString('hex')), '38CNP6RVS0EXQQ4V34');
+    t.equal(c32check.c32decode('38CNP6RVS0EXQQ4V34'), '68656c6c6f20776f726c64');
+    t.equal(Buffer.from('68656c6c6f20776f726c64', 'hex').toString(), 'hello world');
+
+    // ## c32checkEncode, c32checkDecode
+    version = 12;
+    t.equal(
+      c32check.c32checkEncode(version, Buffer.from('hello world').toString('hex')),
+      'CD1JPRV3F41VPYWKCCGRMASC8'
+    );
+    t.equal(c32check.c32checkDecode('CD1JPRV3F41VPYWKCCGRMASC8')[0], 12);
+    t.equal(c32check.c32checkDecode('CD1JPRV3F41VPYWKCCGRMASC8')[1], '68656c6c6f20776f726c64');
+    t.equal(Buffer.from('68656c6c6f20776f726c64', 'hex').toString(), 'hello world');
+
+    // ## c32address, c32addressDecode
+    version = 22;
+    const hash160 = 'a46ff88886c2ef9762d970b4d2c63678835bd39d';
+    t.equal(c32check.versions.mainnet.p2pkh, version);
+    t.equal(c32check.c32address(version, hash160), 'SP2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKNRV9EJ7');
+    t.equal(c32check.c32addressDecode('SP2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKNRV9EJ7')[0], version);
+    t.equal(c32check.c32addressDecode('SP2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKNRV9EJ7')[1], hash160);
+
+    // ## c32ToB58, b58ToC32
+    b58addr = '16EMaNw3pkn3v6f2BgnSSs53zAKH4Q8YJg';
+    t.equal(c32check.b58ToC32(b58addr), 'SPWNYDJ3STG7XH7ERWXMV6MQ7Q6EATWVY5Q1QMP8');
+    t.equal(
+      c32check.c32ToB58('SPWNYDJ3STG7XH7ERWXMV6MQ7Q6EATWVY5Q1QMP8'),
+      '16EMaNw3pkn3v6f2BgnSSs53zAKH4Q8YJg'
+    );
+    b58addr = '3D2oetdNuZUqQHPJmcMDDHYoqkyNVsFk9r';
+    t.equal(c32check.b58ToC32(b58addr), 'SM1Y6EXF21RZ9739DFTEQKB1H044BMM0XVCM4A4NY');
+    t.equal(
+      c32check.c32ToB58('SM1Y6EXF21RZ9739DFTEQKB1H044BMM0XVCM4A4NY'),
+      '3D2oetdNuZUqQHPJmcMDDHYoqkyNVsFk9r'
+    );
   });
 }
 
