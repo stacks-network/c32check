@@ -112,9 +112,9 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
+    "@noble/hashes": "^1.1.2",
     "base-x": "^4.0.0",
-    "buffer": "^6.0.3",
-    "cross-sha256": "^1.2.0"
+    "buffer": "^6.0.3"
   },
   "engines": {
     "node": ">=8"
