@@ -1,6 +1,6 @@
+import { sha256 } from '@noble/hashes/sha256';
 import { Buffer } from 'buffer/';
-import { c32encode, c32decode, c32normalize, c32 } from './encoding';
-import { hashSha256 } from 'cross-sha256';
+import { c32, c32decode, c32encode, c32normalize } from './encoding';
 
 /**
  * Get the c32check checksum of a hex-encoded string
@@ -8,7 +8,7 @@ import { hashSha256 } from 'cross-sha256';
  * @returns {string} the c32 checksum, as a bin-encoded string
  */
 function c32checksum(dataHex: string): string {
-  const dataHash = hashSha256(hashSha256(Buffer.from(dataHex, 'hex')));
+  const dataHash = sha256(sha256(Buffer.from(dataHex, 'hex')));
   const checksum = dataHash.slice(0, 4).toString('hex');
   return checksum;
 }
