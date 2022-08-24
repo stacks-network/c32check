@@ -10,6 +10,7 @@ import {
   c32ToB58,
   b58ToC32,
 } from '../../../src/index';
+import { encode } from '../../../src/base58check';
 import * as c32check from '../../../src/index';
 
 export function c32encodingTests() {
@@ -833,6 +834,25 @@ export function c32ToB58Test() {
       c32check.c32ToB58('SM1Y6EXF21RZ9739DFTEQKB1H044BMM0XVCM4A4NY'),
       '3D2oetdNuZUqQHPJmcMDDHYoqkyNVsFk9r'
     );
+  });
+
+  const invalidEncodeParameterTypes = [
+    [{} as string, 'abc'],
+    ['abc', {} as string],
+    [{} as string, {} as string],
+  ];
+
+  test('encode throws on invalid types', t => {
+    t.plan(invalidEncodeParameterTypes.length);
+
+    for (const [p1, p2] of invalidEncodeParameterTypes) {
+      try {
+        encode(p1, p2);
+        t.ok(false, 'encode returned on invalid type');
+      } catch (e) {
+        t.ok(true, 'encode threw error on invalid type');
+      }
+    }
   });
 }
 
