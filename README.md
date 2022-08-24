@@ -1,10 +1,10 @@
 # c32check
 
-[Crockford base-32](https://en.wikipedia.org/wiki/Base32#Crockford's_Base32) encoding library
-with 4-byte checksum.
+[Crockford base-32](https://en.wikipedia.org/wiki/Base32#Crockford's_Base32)
+encoding library with 4-byte checksum.
 
-This library is meant for generating and decoding Stacks addresses on the
-Blockstack blockchain.
+This library is meant for generating and decoding addresses on the Stacks
+blockchain.
 
 ## How it works
 
@@ -30,9 +30,10 @@ This is similar to base58check encoding, for example.
 
 ## c32 Addresses
 
-Specific to Blockstack, the Stacks blockchain uses c32-encoded public key
-hashes as addresses. Specifically, a **c32check address** is a c32check-encoded
-ripemd160 hash.
+The Stacks blockchain uses c32-encoded public key hashes as addresses.
+Specifically, a **c32check address** is a c32check-encoded ripemd160 hash.
+
+---
 
 # Examples
 
@@ -77,7 +78,8 @@ ripemd160 hash.
 
 ## c32address, c32addressDecode
 
-**NOTE**: these methods only work on ripemd160 hashes
+> **Note**:
+> These methods only work on ripemd160 hashes
 
 ```
 > hash160 = 'a46ff88886c2ef9762d970b4d2c63678835bd39d'
@@ -92,8 +94,9 @@ ripemd160 hash.
 
 ## c32ToB58, b58ToC32
 
-**NOTE**: Common address versions are converted between c32check
-and base58check seamlessly, in order to accomodate Stacks addresses.
+> **Note**:
+> Common address versions are converted between c32check and base58check
+> seamlessly, in order to accomodate Stacks addresses.
 
 ```
 > b58addr = '16EMaNw3pkn3v6f2BgnSSs53zAKH4Q8YJg'
