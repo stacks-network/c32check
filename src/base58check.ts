@@ -4,49 +4,36 @@
  * @Date:   2016-09-11 23:36:05
  */
 'use strict';
-import { Buffer } from 'buffer/';
 
 import { sha256 } from '@noble/hashes/sha256';
+import { hexToBytes } from '@noble/hashes/utils';
 import * as basex from 'base-x';
 
 const ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 
-export function encode(
-  data: string | Buffer,
-  prefix: string | Buffer = '00',
-  encoding: string = 'hex'
-) {
-  if (typeof data === 'string') {
-    data = new Buffer(data, encoding);
+export function encode(data: string | Uint8Array, prefix: string | Uint8Array = '00') {
+  const dataBytes = typeof data === 'string' ? hexToBytes(data) : data;
+  const prefixBytes = typeof prefix === 'string' ? hexToBytes(prefix) : data;
+
+  if (!(dataBytes instanceof Uint8Array) || !(prefixBytes instanceof Uint8Array)) {
+    throw new TypeError('Argument must be of type Uint8Array or string');
   }
-  if (!(data instanceof Buffer)) {
-    throw new TypeError('"data" argument must be an Array of Buffers');
-  }
-  if (!(prefix instanceof Buffer)) {
-    prefix = new Buffer(prefix, encoding);
-  }
-  let hash = Buffer.concat([prefix, data]);
-  hash = sha256(hash) as Buffer;
-  hash = sha256(hash) as Buffer;
-  hash = Buffer.concat([prefix, data, hash.slice(0, 4)]);
-  return basex(ALPHABET).encode(hash);
+
+  const checksum = sha256(sha256(new Uint8Array([...prefixBytes, ...dataBytes])));
+  return basex(ALPHABET).encode([...prefixBytes, ...dataBytes, ...checksum.slice(0, 4)]);
 }
 
-export function decode(string: string, encoding?: BufferEncoding) {
-  const buffer = new Buffer(basex(ALPHABET).decode(string));
-  let prefix: Buffer | string = buffer.slice(0, 1);
-  let data: Buffer | string = buffer.slice(1, -4);
-  let hash = Buffer.concat([prefix, data]);
-  hash = sha256(hash) as Buffer;
-  hash = sha256(hash) as Buffer;
-  buffer.slice(-4).forEach((check, index) => {
-    if (check !== hash[index]) {
+export function decode(string: string) {
+  const bytes = basex(ALPHABET).decode(string);
+  const prefixBytes = bytes.slice(0, 1);
+  const dataBytes = bytes.slice(1, -4);
+
+  // todo: for better performance replace spread with `concatBytes` method
+  const checksum = sha256(sha256(new Uint8Array([...prefixBytes, ...dataBytes])));
+  bytes.slice(-4).forEach((check, index) => {
+    if (check !== checksum[index]) {
       throw new Error('Invalid checksum');
     }
   });
-  if (encoding) {
-    prefix = prefix.toString(encoding);
-    data = data.toString(encoding);
-  }
-  return { prefix, data };
+  return { prefix: prefixBytes, data: dataBytes };
 }

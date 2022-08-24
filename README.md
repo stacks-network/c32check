@@ -8,7 +8,7 @@ Blockstack blockchain.
 
 ## How it works
 
-Each c32check string encodes a 1-byte version and a 4-byte checksum.  When
+Each c32check string encodes a 1-byte version and a 4-byte checksum. When
 decoded as a hex string, the wire format looks like this:
 
 ```
@@ -17,7 +17,7 @@ decoded as a hex string, the wire format looks like this:
 version     n-byte hex payload          4-byte hash
 ```
 
-If `version` is the version byte (a 1-byte `number`) and `payload` is the raw 
+If `version` is the version byte (a 1-byte `number`) and `payload` is the raw
 bytes (e.g. as a `string`), then the `checksum` is calculated as follows:
 
 ```
@@ -31,7 +31,7 @@ This is similar to base58check encoding, for example.
 ## c32 Addresses
 
 Specific to Blockstack, the Stacks blockchain uses c32-encoded public key
-hashes as addresses.  Specifically, a **c32check address** is a c32check-encoded
+hashes as addresses. Specifically, a **c32check address** is a c32check-encoded
 ripemd160 hash.
 
 # Examples
@@ -44,7 +44,7 @@ ripemd160 hash.
   c32checkDecode: [Function: c32checkDecode],
   c32address: [Function: c32address],
   c32addressDecode: [Function: c32addressDecode],
-  versions: 
+  versions:
    { mainnet: { p2pkh: 22, p2sh: 20 },
      testnet: { p2pkh: 26, p2sh: 21 } },
   c32ToB58: [Function: c32ToB58],
@@ -70,7 +70,7 @@ ripemd160 hash.
 > c32check.c32checkEncode(version, Buffer.from('hello world').toString('hex'))
 'CD1JPRV3F41VPYWKCCGRMASC8'
 > c32check.c32checkDecode('CD1JPRV3F41VPYWKCCGRMASC8')
-[ 12, '68656c6c6f20776f726c64' ] 
+[ 12, '68656c6c6f20776f726c64' ]
 > Buffer.from('68656c6c6f20776f726c64', 'hex').toString()
 'hello world'
 ```
@@ -103,11 +103,12 @@ and base58check seamlessly, in order to accomodate Stacks addresses.
 > c32check.c32ToB58('SPWNYDJ3STG7XH7ERWXMV6MQ7Q6EATWVY5Q1QMP8')
 '16EMaNw3pkn3v6f2BgnSSs53zAKH4Q8YJg'
 ```
+
 ```
 > b58addr = '3D2oetdNuZUqQHPJmcMDDHYoqkyNVsFk9r'
 '3D2oetdNuZUqQHPJmcMDDHYoqkyNVsFk9r'
 > c32check.b58ToC32(b58addr)
 'SM1Y6EXF21RZ9739DFTEQKB1H044BMM0XVCM4A4NY'
 > c32check.c32ToB58('SM1Y6EXF21RZ9739DFTEQKB1H044BMM0XVCM4A4NY')
-3D2oetdNuZUqQHPJmcMDDHYoqkyNVsFk9r'
+'3D2oetdNuZUqQHPJmcMDDHYoqkyNVsFk9r'
 ```

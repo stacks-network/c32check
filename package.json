@@ -113,8 +113,7 @@
   },
   "dependencies": {
     "@noble/hashes": "^1.1.2",
-    "base-x": "^4.0.0",
-    "buffer": "^6.0.3"
+    "base-x": "^4.0.0"
   },
   "engines": {
     "node": ">=8"
