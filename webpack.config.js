@@ -9,9 +9,9 @@ module.exports = env => {
         {
           test: /\.ts?$/,
           exclude: /node_modules/,
-          use: { loader: 'ts-loader' }
-        }
-      ]
+          use: { loader: 'ts-loader' },
+        },
+      ],
     },
     resolve: { extensions: ['.ts', '.js'] },
     output: {
@@ -21,13 +21,13 @@ module.exports = env => {
       libraryTarget: 'umd',
       globalObject: 'this'
     },
-    plugins: []
-  }
+    plugins: [],
+  };
 
   if (process.env.ANALYZE || env.ANALYZE) {
     const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
     opts.plugins.push(new BundleAnalyzerPlugin());
   }
-  
-  return opts
-}
+
+  return opts;
+};
