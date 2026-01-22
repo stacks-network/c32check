@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stacks-network/c32check.git"
+      "url": "git+https://github.com/AdekunleBamz/c32check.git"
   },
   "author": {
     "name": "Jude Nelson",
@@ -33,7 +33,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/stacks-network/c32check/issues"
+    "url": "https://github.com/AdekunleBamz/c32check/issues"
   },
   "keywords": [
     "blockchain",
@@ -62,7 +62,7 @@
     "identity",
     "ethereum"
   ],
-  "homepage": "https://stacks.co",
+  "homepage": "https://github.com/AdekunleBamz/c32check",
   "contributors": [
     {
       "name": "Jude Nelson",

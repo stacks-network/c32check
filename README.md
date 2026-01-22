@@ -38,7 +38,7 @@ Specifically, a **c32check address** is a c32check-encoded ripemd160 hash.
 # Examples
 
 ```
-> c32 = require('c32check')
+> c32check = require('c32check')
 { c32encode: [Function: c32encode],
   c32decode: [Function: c32decode],
   c32checkEncode: [Function: c32checkEncode],
