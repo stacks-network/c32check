@@ -115,3 +115,4 @@ Specifically, a **c32check address** is a c32check-encoded ripemd160 hash.
 > c32check.c32ToB58('SM1Y6EXF21RZ9739DFTEQKB1H044BMM0XVCM4A4NY')
 '3D2oetdNuZUqQHPJmcMDDHYoqkyNVsFk9r'
 ```
+``
